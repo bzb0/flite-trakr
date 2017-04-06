@@ -22,7 +22,6 @@
     </dependencies>
 
     <build>
-        <finalName>FliteTrakr</finalName>
         <plugins>
             <!-- Set a compiler level -->
             <plugin>
@@ -33,6 +32,48 @@
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <finalName>${artifactId}-${version}</finalName>
+                    <!-- Add all project dependencies. -->
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <!-- Specifying main class in manifest file. -->
+                    <archive>
+                        <manifest>
+                            <mainClass>com.adidas.flitetrakr.main.FliteTrakr</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <!-- Bind to the packaging phase. -->
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
